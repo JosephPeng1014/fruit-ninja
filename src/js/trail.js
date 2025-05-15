@@ -9,7 +9,7 @@ const trailTexture = PIXI.Texture.from('/assets/trail.png');
 // historySize determines how long the trail will be.
 const historySize = 10;
 // ropeSize determines how smooth the trail will be.
-const ropeSize = 100;
+const ropeSize = 50;
 
 const rightHistoryX = new Array(historySize).fill(0);
 const rightHistoryY = new Array(historySize).fill(0);
