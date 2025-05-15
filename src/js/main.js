@@ -15,11 +15,14 @@ initRope(app);
 
 function getMousePosition() {
   const mouse = shouldUseCamera ? getLastFingerPosition() : app.renderer.plugins.interaction.mouse.global;
-  return {x: mouse.x, y: mouse.y}
+  return {
+    right: {x: mouse.right.x, y: mouse.right.y},
+    left: {x: mouse.left.x, y: mouse.left.y}
+  }
 }
 
 function getDrawHandPositions() {
-  return shouldUseCamera ? getHandPositions() : [];
+  return shouldUseCamera ? getHandPositions() : {right: [], left: []};
 }
 
 let gameover = true
@@ -30,21 +33,19 @@ let startShowed = true
 app.ticker.add((delta) => {
   // main game loop
 
-  // const mousePosition = getMousePosition();
-  // mouseTick(app, mousePosition);
-
   const handPositions = getDrawHandPositions();
-  // for(const handPosition of handPositions) {
-  //   mouseTick(app, handPosition);
-  // }
-
   drawHandPoints(handPositions)
 
-
+  const mousePosition = getMousePosition();
+  mouseTick(app, mousePosition.right, 'right');
+  mouseTick(app, mousePosition.left, 'left');
+  
   const fruitWave = getFruitWave();
   fruitWave.tick();
-  let collisions = fruitWave.checkCollisions({...handPositions, height: 1, width: 1});
-  // console.log("collisions", collisions)
+  let collisions = [
+    ...fruitWave.checkCollisions({...mousePosition.right, height: 1, width: 1}),
+    ...fruitWave.checkCollisions({...mousePosition.left, height: 1, width: 1})
+  ];
 
   const plusScore = collisions.filter(type => type === "pineapple").length
   const plusBooms = collisions.filter(type => type === "boom").length ? 1 : 0

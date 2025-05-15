@@ -37,37 +37,51 @@ const hands = new mpHands.Hands(config);
 hands.onResults(onResults);
 
 const POINTING_FINGER_TIP = 8;
-let position = {x: 0, y: 0};
-let handPositions = []
+let rightFingerPosition = {x: 0, y: 0};
+let leftFingerPosition = {x: 0, y: 0};
+let rightHandPositions = []
+let leftHandPositions = []
 
 export const getLastFingerPosition = () => {
-    return position;
+    return {
+      right: rightFingerPosition,
+      left: leftFingerPosition
+    };
 }
 
 export const getHandPositions = () => {
-  return handPositions;
+  return {
+    right: rightHandPositions,
+    left: leftHandPositions
+  };
 }
 
 const setPosition = (results) => {
     if(results && results.multiHandLandmarks && results.multiHandedness) {
         const rightHandIndex = results.multiHandedness.findIndex(item => item.label === 'Right')
+        const leftHandIndex = results.multiHandedness.findIndex(item => item.label === 'Left')
+
         if (rightHandIndex !== -1) {
           if (results.multiHandLandmarks[rightHandIndex][POINTING_FINGER_TIP]) {
             let finger = results.multiHandLandmarks[rightHandIndex][POINTING_FINGER_TIP];
-            position = {x: finger.x * app.screen.width, y: finger.y * app.screen.height};
+            rightFingerPosition = {x: finger.x * app.screen.width, y: finger.y * app.screen.height};
           }
 
-          // 把右手的全部節點加入handPositions
-          handPositions = results.multiHandLandmarks[rightHandIndex]
+          rightHandPositions = results.multiHandLandmarks[rightHandIndex]
 
-        } else if (results.multiHandLandmarks.length) {
-          // // æ¾ä¸å°å³æ
-          // if (results.multiHandLandmarks[0][POINTING_FINGER_TIP]) {
-          //   let finger = results.multiHandLandmarks[0][POINTING_FINGER_TIP];
-          //   position = {x: finger.x * app.screen.width, y: finger.y * app.screen.height};
-          // }
+        } else {
+          rightHandPositions = []
+        }
 
-          handPositions = []
+        if (leftHandIndex !== -1) {
+          if (results.multiHandLandmarks[leftHandIndex][POINTING_FINGER_TIP]) {
+            let finger = results.multiHandLandmarks[leftHandIndex][POINTING_FINGER_TIP];
+            leftFingerPosition = {x: finger.x * app.screen.width, y: finger.y * app.screen.height};
+          }
+
+          leftHandPositions = results.multiHandLandmarks[leftHandIndex]
+        } else {
+          leftHandPositions = []
         }
     }
 }
