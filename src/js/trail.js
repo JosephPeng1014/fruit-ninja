@@ -9,7 +9,7 @@ const trailTexture = PIXI.Texture.from('/assets/trail.png');
 // historySize determines how long the trail will be.
 const historySize = 10;
 // ropeSize determines how smooth the trail will be.
-const ropeSize = 5;
+const ropeSize = 100;
 
 const rightHistoryX = new Array(historySize).fill(0);
 const rightHistoryY = new Array(historySize).fill(0);
@@ -110,11 +110,11 @@ export function drawHandPoints(handPositions) {
     drawLandmarks(
         canvasCtx,
         handPositions.right,
-        {color:'#FF0000', fillColor:'#FF0000', radius: 0.1}
+        {color:'#0000FF', fillColor:'#0000FF', radius: 0.01}
     )
     drawLandmarks(
         canvasCtx,
         handPositions.left,
-        {color:'#FF0000', fillColor:'#FF0000', radius: 0.1}
+        {color:'#0000FF', fillColor:'#0000FF', radius: 0.01}
     )
 }
