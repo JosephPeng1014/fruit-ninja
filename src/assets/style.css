@@ -38,14 +38,15 @@ body {
 .container {
   position: relative;
   background-color: #596e73;
-  height: 480px;
-  width: 640px;
+  height: 100%;
+  width: 100%;
 }
 
 .input_video {
   position: relative;
   width: inherit;
   height: inherit;
+  object-fit: cover;
   top: 0;
   left: 0;
   right: 0;
