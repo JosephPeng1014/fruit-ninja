@@ -1,0 +1,138 @@
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.abs {
+  position: absolute;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+  &:hover {
+    color: lightblue;
+  }
+}
+
+body {
+  bottom: 0;
+  font-family: 'Titillium Web', sans-serif;
+  color: white;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-origin: 0px 0px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  position: relative;
+  background-color: #596e73;
+  height: 480px;
+  width: 640px;
+}
+
+.input_video {
+  position:relative;
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  &.selfie {
+    transform: scale(-1, 1);
+  }
+}
+
+.main_menu  {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.ingame_menu  {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+}
+.output_canvas {
+  position: absolute;
+  /*visibility: hidden;*/
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#scene {
+  position: absolute;
+  /*visibility: hidden;*/
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.control-panel {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.loading {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  backface-visibility: hidden;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 1s;
+
+  .message {
+    font-size: x-large;
+  }
+
+  .spinner {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    animation: spin 1s linear infinite;
+    border: 32px solid #bebebe;
+    border-top: 32px solid #3498db;
+    border-radius: 50%;
+  }
+}
+
+.loaded .loading {
+  opacity: 0;
+}
+
+.button {
+  display: inline-block;
+  padding: 5px 10px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  vertical-align: middle;
+  font-family: 'Rubik One', sans-serif;
+  text-decoration: none;
+  font-size: 1vw;
+  transition: all .5s;
+  background-color: #3498db;
+}

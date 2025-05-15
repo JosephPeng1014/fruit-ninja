@@ -2,6 +2,7 @@
   "name": "pixi-webpack-demo",
   "version": "1.0.0",
   "description": "make pixi.js game with webpack",
+  "homepage": "http://league55.github.io/pixi-webpack-demo",
   "main": "src/js/main.js",
   "keywords": [
     "pixi.js",
@@ -17,6 +18,7 @@
   "dependencies": {
     "@babel/runtime": "^7.8.4",
     "core-js": "^3.6.4",
+    "howler": "^2.2.3",
     "pixi.js": "^5.2.1"
   },
   "devDependencies": {

@@ -1,0 +1,208 @@
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.abs {
+  position: absolute;
+}
+
+a {
+  color: white;
+  text-decoration: none;
+}
+a:hover {
+  color: lightblue;
+}
+
+body {
+  bottom: 0;
+  font-family: "Titillium Web", sans-serif;
+  color: white;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform-origin: 0px 0px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+}
+
+.container {
+  position: relative;
+  background-color: #596e73;
+  height: 480px;
+  width: 640px;
+}
+
+.input_video {
+  position: relative;
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.input_video.selfie {
+  transform: scale(-1, 1);
+}
+
+.main_menu {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+}
+
+.ingame_menu {
+  position: absolute;
+  left: 50%;
+  top: 10px;
+}
+
+.output_canvas {
+  position: absolute;
+  /*visibility: hidden;*/
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+#scene {
+  position: absolute;
+  /*visibility: hidden;*/
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.control-panel {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+}
+
+.loading {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: center;
+  backface-visibility: hidden;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 1s;
+}
+.loading .message {
+  font-size: x-large;
+}
+.loading .spinner {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  animation: spin 1s linear infinite;
+  border: 32px solid #bebebe;
+  border-top: 32px solid #3498db;
+  border-radius: 50%;
+}
+
+.loaded .loading {
+  opacity: 0;
+}
+
+.button {
+  display: inline-block;
+  padding: 5px 10px;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  vertical-align: middle;
+  font-family: "Rubik One", sans-serif;
+  text-decoration: none;
+  font-size: 1vw;
+  transition: all 0.5s;
+  background-color: #3498db;
+}
+
+/*# sourceMappingURL=style.css.map */
+
+#start-wrapper, #counter-wrapper, #win-wrapper, #lose-wrapper {
+  position: absolute;
+  /*visibility: hidden;*/
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+.logo {
+  position: absolute;
+  /*visibility: hidden;*/
+  width: inherit;
+  height: inherit;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+.logo div {
+  margin: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+#start-modal {
+  padding: 10px;
+  margin: 10px;
+  background: rgba(0, 255, 0, 0.5);
+  max-width: 400px;
+  color: black;
+}
+
+#win-modal {
+  padding: 10px;
+  margin: 10px;
+  background: rgba(255, 0, 0, 0.5);
+  max-width: 400px;
+  color: black;
+}
+
+#lose-modal {
+  padding: 10px;
+  margin: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  color: white;
+}
+
+#counter-modal {
+  padding: 10px;
+  margin: 10px;
+  background: rgba(0, 255, 238);
+  max-width: 400px;
+  color: black;
+  font-size: 80px;
+  opacity: 0.5;
+}
