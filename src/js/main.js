@@ -1,5 +1,5 @@
 import {app, shouldUseCamera} from "./app";
-import {initRope, initHand, mouseTick, drawHandPoints} from "./trail";
+import {initCanvasSize, initRope, initHand, mouseTick, drawHandPoints} from "./trail";
 import {getLastFingerPosition, getHandPositions} from "./camera_input";
 import getFruitWave from "./gameplay/fruits";
 import initInterface from "./gameplay/interface";
@@ -11,6 +11,8 @@ bg.once("load", function() {
 
 const userInterface = initInterface();
 
+// 初始化
+initCanvasSize();
 initRope();
 initHand();
 

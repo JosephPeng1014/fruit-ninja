@@ -3,7 +3,6 @@ import * as PIXI from 'pixi.js'
 import { APP_WIDTH, APP_HEIGHT, app } from './app';
 
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
-const canvasCtx = canvasElement.getContext('2d');
 
 const trailTexture = PIXI.Texture.from('/assets/trail.png');
 
@@ -43,6 +42,12 @@ let rightConnectors
 let leftConnectors
 let rightLandmarks
 let leftLandmarks
+
+// 創建容器來存放所有圖形
+const rightHandContainer = new PIXI.Container();
+const leftHandContainer = new PIXI.Container();
+offscreenContainer.addChild(rightHandContainer);
+offscreenContainer.addChild(leftHandContainer);
 
 export function initHand() {
      // 保存手部繪製的圖形
@@ -130,13 +135,12 @@ export function drawHandPoints(handPositions) {
     // 設置輸出 canvas 的尺寸與視頻的實際顯示尺寸相同
     app.renderer.resize(videoRect.width, videoRect.height);
     
-    // 只清除手部繪製的內容
-    rightConnectors.clear();
-    leftConnectors.clear();
-    rightLandmarks.clear();
-    leftLandmarks.clear();
+    // 移除舊的圖形
+    rightHandContainer.removeChildren();
+    leftHandContainer.removeChildren();
     
-    // 繪製右手連接線
+    // 創建新的圖形
+    const rightConnectors = new PIXI.Graphics();
     rightConnectors.lineStyle(1, 0x00FF00);
     if (handPositions.right && handPositions.right.length > 0) {
         for (let i = 0; i < HAND_CONNECTIONS.length; i++) {
@@ -150,8 +154,24 @@ export function drawHandPoints(handPositions) {
             }
         }
     }
+    rightHandContainer.addChild(rightConnectors);
     
-    // 繪製左手連接線
+    const rightLandmarks = new PIXI.Graphics();
+    rightLandmarks.beginFill(0x0000FF);
+    if (handPositions.right && handPositions.right.length > 0) {
+        handPositions.right.forEach(point => {
+            if (point) {
+                rightLandmarks.drawCircle(
+                    point.x * APP_WIDTH,
+                    point.y * APP_HEIGHT,
+                    2
+                );
+            }
+        });
+    }
+    rightHandContainer.addChild(rightLandmarks);
+    
+    const leftConnectors = new PIXI.Graphics();
     leftConnectors.lineStyle(1, 0x00FF00);
     if (handPositions.left && handPositions.left.length > 0) {
         for (let i = 0; i < HAND_CONNECTIONS.length; i++) {
@@ -165,23 +185,9 @@ export function drawHandPoints(handPositions) {
             }
         }
     }
+    leftHandContainer.addChild(leftConnectors);
     
-    // 繪製右手關鍵點
-    rightLandmarks.beginFill(0x0000FF);
-    if (handPositions.right && handPositions.right.length > 0) {
-        handPositions.right.forEach(point => {
-            if (point) {
-                rightLandmarks.drawCircle(
-                    point.x * APP_WIDTH,
-                    point.y * APP_HEIGHT,
-                    2
-                );
-            }
-        });
-    }
-    rightLandmarks.endFill();
-    
-    // 繪製左手關鍵點
+    const leftLandmarks = new PIXI.Graphics();
     leftLandmarks.beginFill(0x0000FF);
     if (handPositions.left && handPositions.left.length > 0) {
         handPositions.left.forEach(point => {
@@ -194,7 +200,7 @@ export function drawHandPoints(handPositions) {
             }
         });
     }
-    leftLandmarks.endFill();
+    leftHandContainer.addChild(leftLandmarks);
     
     // 渲染離屏容器到紋理
     app.renderer.render(offscreenContainer, offscreenTexture);
@@ -217,7 +223,7 @@ export function drawHandPoints(handPositions) {
     offscreenSprite.height = scaledHeight;
 }
 
-function resetCanvasSize() {
+export function initCanvasSize() {
     const video = document.getElementsByClassName('input_video')[0];
     const videoRect = video.getBoundingClientRect();
     
@@ -225,6 +231,3 @@ function resetCanvasSize() {
     canvasElement.width = videoRect.width;
     canvasElement.height = videoRect.height;
 }
-
-// 初始化
-resetCanvasSize();
