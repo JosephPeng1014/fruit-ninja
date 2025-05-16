@@ -51,14 +51,17 @@ offscreenContainer.addChild(leftConnectors);
 offscreenContainer.addChild(rightLandmarks);
 offscreenContainer.addChild(leftLandmarks);
 
-export function initRope(app) {
+// 保存 rope 對象
+let rightRope;
+let leftRope;
+
+export function initRope() {
     // Create the rope
-    let rightRope = new PIXI.SimpleRope(trailTexture, rightPoints);
-    // Set the blendmode
+    rightRope = new PIXI.SimpleRope(trailTexture, rightPoints);
     rightRope.blendmode = PIXI.BLEND_MODES.ADD;
     offscreenContainer.addChild(rightRope);
 
-    let leftRope = new PIXI.SimpleRope(trailTexture, leftPoints);
+    leftRope = new PIXI.SimpleRope(trailTexture, leftPoints);
     leftRope.blendmode = PIXI.BLEND_MODES.ADD;
     offscreenContainer.addChild(leftRope);
 }
@@ -68,11 +71,14 @@ export function mouseTick(mousePosition, side='right') {
     const historyY = side === 'right' ? rightHistoryY : leftHistoryY;
     const points = side === 'right' ? rightPoints : leftPoints;
 
+    const positionX = mousePosition.x / app.screen.width * APP_WIDTH;
+    const positionY = mousePosition.y / app.screen.height * APP_HEIGHT;
+
     // Update the mouse values to history
     historyX.pop();
-    historyX.unshift(mousePosition.x);
+    historyX.unshift(positionX);
     historyY.pop();
-    historyY.unshift(mousePosition.y);
+    historyY.unshift(positionY);
 
     // Update the points to correspond with history.
     for (let i = 0; i < ropeSize; i++) {
@@ -85,6 +91,7 @@ export function mouseTick(mousePosition, side='right') {
         p.x = ix;
         p.y = iy;
     }
+
 }
 
 

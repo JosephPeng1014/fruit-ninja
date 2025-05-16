@@ -11,7 +11,7 @@ bg.once("load", function() {
 
 const userInterface = initInterface();
 
-initRope(app);
+initRope();
 
 function getMousePosition() {
   const mouse = shouldUseCamera ? getLastFingerPosition() : app.renderer.plugins.interaction.mouse.global;
