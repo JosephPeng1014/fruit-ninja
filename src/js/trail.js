@@ -37,30 +37,13 @@ const offscreenContainer = new PIXI.Container();
 const offscreenSprite = new PIXI.Sprite(offscreenTexture);
 app.stage.addChild(offscreenSprite);
 
-// 保存手部繪製的圖形
-let rightConnectors
-let leftConnectors
-let rightLandmarks
-let leftLandmarks
-
 // 創建容器來存放所有圖形
 const rightHandContainer = new PIXI.Container();
 const leftHandContainer = new PIXI.Container();
-offscreenContainer.addChild(rightHandContainer);
-offscreenContainer.addChild(leftHandContainer);
 
 export function initHand() {
-     // 保存手部繪製的圖形
-    rightConnectors = new PIXI.Graphics();
-    leftConnectors = new PIXI.Graphics();
-    rightLandmarks = new PIXI.Graphics();
-    leftLandmarks = new PIXI.Graphics();
-
-    // 初始化時添加到容器
-    offscreenContainer.addChild(rightConnectors);
-    offscreenContainer.addChild(leftConnectors);
-    offscreenContainer.addChild(rightLandmarks);
-    offscreenContainer.addChild(leftLandmarks); 
+    offscreenContainer.addChild(rightHandContainer);
+    offscreenContainer.addChild(leftHandContainer);
 }
 
 export function initRope() {
