@@ -32,13 +32,12 @@ let startShowed = true
 
 app.ticker.add((delta) => {
   // main game loop
-
   const handPositions = getDrawHandPositions();
   drawHandPoints(handPositions)
 
   const mousePosition = getMousePosition();
-  mouseTick(app, mousePosition.right, 'right');
-  mouseTick(app, mousePosition.left, 'left');
+  mouseTick(mousePosition.right, 'right');
+  mouseTick(mousePosition.left, 'left');
   
   const fruitWave = getFruitWave();
   fruitWave.tick();

@@ -1,5 +1,6 @@
 // Get the texture for rope.
 import * as PIXI from 'pixi.js'
+import { APP_WIDTH, APP_HEIGHT } from './app';
 
 const canvasElement = document.getElementsByClassName('output_canvas')[0];
 const canvasCtx = canvasElement.getContext('2d');
@@ -37,7 +38,7 @@ export function initRope(app) {
     app.stage.addChild(leftRope);
 }
 
-export function mouseTick(app, mousePosition, side='right') {
+export function mouseTick(mousePosition, side='right') {
     const historyX = side === 'right' ? rightHistoryX : leftHistoryX;
     const historyY = side === 'right' ? rightHistoryY : leftHistoryY;
     const points = side === 'right' ? rightPoints : leftPoints;
@@ -87,34 +88,81 @@ function cubicInterpolation(array, t, tangentFactor) {
     return (2 * t3 - 3 * t2 + 1) * p[0] + (t3 - 2 * t2 + t) * m[0] + (-2 * t3 + 3 * t2) * p[1] + (t3 - t2) * m[1];
 }
 
+// 創建離屏 canvas
+const offscreenCanvas = document.createElement('canvas');
+const offscreenCtx = offscreenCanvas.getContext('2d');
+
+// 設置離屏 canvas 的尺寸為原始尺寸
+offscreenCanvas.width = APP_WIDTH;
+offscreenCanvas.height = APP_HEIGHT;
 
 export function drawHandPoints(handPositions) {
-    const {right, left} = handPositions
+    const video = document.getElementsByClassName('input_video')[0];
+    const videoRect = video.getBoundingClientRect();
+    
+    // 設置輸出 canvas 的尺寸與視頻的實際顯示尺寸相同
+    canvasElement.width = videoRect.width;
+    canvasElement.height = videoRect.height;
+    
+    // 清除離屏 canvas
+    offscreenCtx.clearRect(0, 0, APP_WIDTH, APP_HEIGHT);
+    
+    // 在離屏 canvas 上繪製原始內容
+    drawConnectors(
+        offscreenCtx,
+        handPositions.right,
+        HAND_CONNECTIONS,
+        {color:'#00FF00', lineWidth: 1}
+    )
 
+    drawConnectors(
+        offscreenCtx,
+        handPositions.left,
+        HAND_CONNECTIONS,
+        {color:'#00FF00', lineWidth: 1}
+    )
+
+    drawLandmarks(
+        offscreenCtx,
+        handPositions.right,
+        {color:'#0000FF', fillColor:'#0000FF', radius: 0.01}
+    )
+    drawLandmarks(
+        offscreenCtx,
+        handPositions.left,
+        {color:'#0000FF', fillColor:'#0000FF', radius: 0.01}
+    )
+    
+    // 清除輸出 canvas
     canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
-
-    drawConnectors(
-        canvasCtx,
-        handPositions.right,
-        HAND_CONNECTIONS,
-        {color:'#00FF00', lineWidth: 1}
-    )
-
-    drawConnectors(
-        canvasCtx,
-        handPositions.left,
-        HAND_CONNECTIONS,
-        {color:'#00FF00', lineWidth: 1}
-    )
-
-    drawLandmarks(
-        canvasCtx,
-        handPositions.right,
-        {color:'#0000FF', fillColor:'#0000FF', radius: 0.01}
-    )
-    drawLandmarks(
-        canvasCtx,
-        handPositions.left,
-        {color:'#0000FF', fillColor:'#0000FF', radius: 0.01}
-    )
+    
+    // 計算縮放比例
+    const scaleX = videoRect.width / APP_WIDTH;
+    const scaleY = videoRect.height / APP_HEIGHT;
+    const scale = Math.max(scaleX, scaleY);
+    
+    // 計算裁剪區域
+    const scaledWidth = APP_WIDTH * scale;
+    const scaledHeight = APP_HEIGHT * scale;
+    const offsetX = (videoRect.width - scaledWidth) / 2;
+    const offsetY = (videoRect.height - scaledHeight) / 2;
+    
+    // 將離屏 canvas 的內容繪製到輸出 canvas
+    canvasCtx.drawImage(
+        offscreenCanvas,
+        0, 0, APP_WIDTH, APP_HEIGHT,  // 源圖像的裁剪區域
+        offsetX, offsetY, scaledWidth, scaledHeight  // 目標區域
+    );
 }
+
+function resetCanvasSize() {
+    const video = document.getElementsByClassName('input_video')[0];
+    const videoRect = video.getBoundingClientRect();
+    
+    // 設置畫布尺寸與視頻的實際顯示尺寸相同
+    canvasElement.width = videoRect.width;
+    canvasElement.height = videoRect.height;
+}
+
+// 初始化
+resetCanvasSize();
