@@ -34,34 +34,37 @@ const offscreenTexture = PIXI.RenderTexture.create({
 
 // 創建離屏容器
 const offscreenContainer = new PIXI.Container();
-
 // 創建精靈來顯示離屏內容
 const offscreenSprite = new PIXI.Sprite(offscreenTexture);
 app.stage.addChild(offscreenSprite);
 
 // 保存手部繪製的圖形
-let rightConnectors = new PIXI.Graphics();
-let leftConnectors = new PIXI.Graphics();
-let rightLandmarks = new PIXI.Graphics();
-let leftLandmarks = new PIXI.Graphics();
+let rightConnectors
+let leftConnectors
+let rightLandmarks
+let leftLandmarks
 
-// 初始化時添加到容器
-offscreenContainer.addChild(rightConnectors);
-offscreenContainer.addChild(leftConnectors);
-offscreenContainer.addChild(rightLandmarks);
-offscreenContainer.addChild(leftLandmarks);
+export function initHand() {
+     // 保存手部繪製的圖形
+    rightConnectors = new PIXI.Graphics();
+    leftConnectors = new PIXI.Graphics();
+    rightLandmarks = new PIXI.Graphics();
+    leftLandmarks = new PIXI.Graphics();
 
-// 保存 rope 對象
-let rightRope;
-let leftRope;
+    // 初始化時添加到容器
+    offscreenContainer.addChild(rightConnectors);
+    offscreenContainer.addChild(leftConnectors);
+    offscreenContainer.addChild(rightLandmarks);
+    offscreenContainer.addChild(leftLandmarks); 
+}
 
 export function initRope() {
     // Create the rope
-    rightRope = new PIXI.SimpleRope(trailTexture, rightPoints);
+    const rightRope = new PIXI.SimpleRope(trailTexture, rightPoints);
     rightRope.blendmode = PIXI.BLEND_MODES.ADD;
     offscreenContainer.addChild(rightRope);
 
-    leftRope = new PIXI.SimpleRope(trailTexture, leftPoints);
+    const leftRope = new PIXI.SimpleRope(trailTexture, leftPoints);
     leftRope.blendmode = PIXI.BLEND_MODES.ADD;
     offscreenContainer.addChild(leftRope);
 }

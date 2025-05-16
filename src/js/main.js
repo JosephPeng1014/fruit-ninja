@@ -1,5 +1,5 @@
 import {app, shouldUseCamera} from "./app";
-import {initRope, mouseTick, drawHandPoints} from "./trail";
+import {initRope, initHand, mouseTick, drawHandPoints} from "./trail";
 import {getLastFingerPosition, getHandPositions} from "./camera_input";
 import getFruitWave from "./gameplay/fruits";
 import initInterface from "./gameplay/interface";
@@ -12,6 +12,7 @@ bg.once("load", function() {
 const userInterface = initInterface();
 
 initRope();
+initHand();
 
 function getMousePosition() {
   const mouse = shouldUseCamera ? getLastFingerPosition() : app.renderer.plugins.interaction.mouse.global;
